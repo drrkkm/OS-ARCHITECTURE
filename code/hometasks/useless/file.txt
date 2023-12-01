@@ -1,0 +1,15 @@
+pls give me otl10    PID TTY          TIME CMD
+   7570 pts/0    00:00:00 bash
+   8581 pts/0    00:00:00 main.o
+  36930 pts/0    00:00:02 main.o
+  37785 pts/0    00:00:00 main.o
+  37787 pts/0    00:00:00 ps
+args1.c
+file.txt
+first_task.c
+largs.c
+main.o
+main.ocle
+test
+test.txt
+useless.c
