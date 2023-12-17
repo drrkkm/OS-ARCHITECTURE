@@ -30,12 +30,12 @@ int main(){
         int time = 0;
         char* command = calloc(255, sizeof(char));
         flag = fscanf(fp, "%i %s", &time, command);
-        pid_t pid = fork();
-        if ( pid < 0 ) return -1;
-        if ( pid == 0 ) {
+        pid_t pid = fork(); // to run processes "in parallel"
+        if ( pid < 0 ) return -1;  // error with fork
+        if ( pid == 0 ) { // child
 
             sleep(time);
-            if (execlp(command, command, NULL) == -1) return -1;
+            if (execlp(command, command, NULL) == -1) return -1; // error when launch command
         }
         free(command);
     }

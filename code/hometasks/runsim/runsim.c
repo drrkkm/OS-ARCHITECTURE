@@ -24,24 +24,22 @@ void check(int signal)
         global_counter -= 1;
     }
     return;
+    signal -= 1;
 }
 
 int main(int argc, char* argv[]){
     signal(SIGCHLD, check);
 
-    char *command = calloc(sizeof(char), 256);
+    char *command = calloc(256, sizeof(char));
 
     if (argc < 2) return -1;
     int n = atoi(argv[1]);
-    printf("%d\n", n);
 
-    while (scanf("%s", command)) {
+    while (scanf("%s", command) == 1) {
         if (global_counter + 1 > n) {
             printf("No avalible process to launch\n");
             continue;
         }
-        printf("global counter: %i\n", global_counter);
-
         pid_t pid = fork();
         if ( pid < 0 ) return -1;
         if ( pid == 0 ) {

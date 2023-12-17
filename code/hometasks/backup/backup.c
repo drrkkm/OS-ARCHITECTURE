@@ -32,7 +32,7 @@ recursive down jump and copy files, which wasn't copy yeat or was changed
 
 char* catToNewPath(char* str1, char* str2){ // creare a new string (path) from two strings  
 
-    char * newstr = calloc(sizeof(char), strlen(str1) + strlen(str2) + 2);
+    char * newstr = calloc(strlen(str1) + strlen(str2) + 2, sizeof(char));
     strcpy(newstr, str1);
     strcat(newstr, "/");
     strcat(newstr, str2);
@@ -42,7 +42,7 @@ char* catToNewPath(char* str1, char* str2){ // creare a new string (path) from t
 
 char* catToNewString(char* str1, char* str2){ // concatenates two strings to new (another) string
 
-    char * newstr = calloc(sizeof(char), strlen(str1) + strlen(str2) + 1);
+    char * newstr = calloc(strlen(str1) + strlen(str2) + 1, sizeof(char));
     strcpy(newstr, str1);
     strcat(newstr, str2);
 
@@ -51,7 +51,7 @@ char* catToNewString(char* str1, char* str2){ // concatenates two strings to new
 
 char* changeExtension(char * file){ // change etxtension of file to .gz extension
 
-    char * resStr = calloc(sizeof(char), strlen(file) + 4);
+    char * resStr = calloc(strlen(file) + 4, sizeof(char));
     
     strncpy (resStr, file, strlen(file));
     strcat(resStr, ".gz\0");
@@ -61,7 +61,7 @@ char* changeExtension(char * file){ // change etxtension of file to .gz extensio
 
 char* unchangeExtension(char * file){ // delete .gz etxtension of file
 
-    char * resStr = calloc(sizeof(char), strlen(file) - 2);
+    char * resStr = calloc(strlen(file) - 2, sizeof(char));
     strncpy (resStr, file, strlen(file) - 3);
     strcat(resStr, "\0");
 
@@ -83,7 +83,7 @@ int copyFile(char* file, char* backupDirectoryFile) { // copy file from director
     }
 
     int flag_return = 0;
-    char * inside = calloc(sizeof(char), 1); 
+    char * inside = calloc(1, sizeof(char)); 
 
     while (fread(inside, sizeof(char), 1, fd)) { // character-by-character copying
         if (ferror(fd)) {
@@ -121,7 +121,7 @@ int compressFile(char * pathToFile){
         return -1;
     }
 
-    char * inside = calloc(sizeof(char), 1); 
+    char * inside = calloc(1, sizeof(char)); 
     int flag_return = 0;
 
     while (fread(inside, sizeof(char), 1, f)) { // character-by-character copying
@@ -193,7 +193,7 @@ int shasumOfFile(char* pathToFile, char ** shaFile){ // get shasum256 of file
         return -1;
     }
 
-    *shaFile = calloc(sizeof(char), 65);
+    *shaFile = calloc(65, sizeof(char));
 
     if (fread(*shaFile, sizeof(char), 64, f) != 64) {
         perror("fread");
@@ -314,13 +314,11 @@ void backup(char* directory, char* backupDirectory, int key){
     return;
 }
 
-// ./build/backup ../first ../second
-// ./backup ./first ./second 2
-
+// arguments: path path key
 int main(int argc, char* argv[]){
 
     if (argc <= 2) {
-        fprintf(stderr, "Too many arguments.\n");
+        fprintf(stderr, "Too few arguments.\n");
     }
     else {
         int key = 0;
