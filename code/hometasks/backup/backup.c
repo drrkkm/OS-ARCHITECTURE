@@ -223,7 +223,16 @@ int checkUpdatesFile(char* pathToFile, char* pathToBackupFileGz){ // comparte sh
 
     int flag = 1; // shasums is different
 
-    if (strcmp(shasumFile, shasumBackupFile) == 0) flag = 1; // if shasums are same
+    
+    struct stat *s1;
+    int n1 = lstat(pathToFile, s1);
+
+    struct stat *s2;
+    int n2 = lstat(pathToBackupFileGz, s2);
+
+
+    if (s1->st_mtime == (*s2).st_mtime) flag = 0;
+    //if (strcmp(shasumFile, shasumBackupFile) == 0) flag = 1; // if shasums are same
 
     free(pathToBackupFile);
     free(shasumBackupFile);
@@ -286,13 +295,19 @@ int downShift(char* directory, char* backupDirectory, int key){ // recursive dow
     closedir(bd);
 
     checkFilesInDirectory(d, directory, backupDirectory, key); // check files for their state ( copy yet or not copy)
-    rewinddir(d); // return pointer to begin of file
+    rewinddir(d); // return pointer to begin of directory
 
     struct dirent *dir;
+    struct stat *s;
+
     
+
     while ((dir = readdir(d)) != NULL) {
 
-        if (dir->d_type == DT_DIR){
+        int res = lstat(directory, s);
+        // TO DO AND TIME
+        if (S_ISDIR((*s).st_mode)) {
+        //if ((*s).st_mode == DT_DIR){
             if (strcmp(dir->d_name, ".") == 0) continue;
             if (strcmp(dir->d_name, "..") == 0) continue;
 

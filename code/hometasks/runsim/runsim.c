@@ -19,8 +19,8 @@
 int global_counter = 0;
 
 void check(int signal)
-{
-    while (waitpid(0, 0, WNOHANG) > 0) {
+{   //TO DO HANG
+    while (waitpid(0, NULL, WNOHANG) > 0) {
         global_counter -= 1;
     }
     return;
@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
         pid_t pid = fork();
         if ( pid < 0 ) return -1;
         if ( pid == 0 ) {
-            if (execlp(command, command, NULL) == -1) {
+            if (execlp(command, "", NULL) == -1) {
                 global_counter -= 1;
                 return -1;
             }

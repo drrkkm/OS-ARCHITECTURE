@@ -85,9 +85,9 @@ int washPipe(struct dish* config, int table_max){
             }
             else{
                 // wait for free place
-                while ( !read(fd_table, &flag, 1) || flag == '0') {
-                    continue;
-                }
+                read(fd_table, &flag, 1);
+                //    continue;
+               // }
                 count_dish -= 1;
                 i--;
             }
@@ -134,10 +134,7 @@ int washMessage(struct dish* config, int table_max){
             }
             else {
                 // wait for free place
-                while ( msgrcv(msqid, &message, sizeof(message) - sizeof(message.mtype), 2, 0) < 0 ){
-                    printf("fdsfsdf");
-                    continue;
-                }
+                msgrcv(msqid, &message, sizeof(message) - sizeof(message.mtype), 2, 0);
                 global_count -= 1;
                 i--;
             }
@@ -231,6 +228,8 @@ int washSocket(struct dish* config, int table_max){
     addrsrv.sin_family = AF_INET;
     addrsrv.sin_addr.s_addr = INADDR_ANY;
     addrsrv.sin_port = htons(1616);    
+
+    //short abc = htons(1234);
 
     // connect socket to full adress
     if (bind(sockd, (struct sockaddr *)&addrsrv, sizeof(addrsrv)) < 0) return -1;
